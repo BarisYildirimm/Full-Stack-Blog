@@ -1,24 +1,53 @@
 import mongoose from "mongoose";
+import bcrypt from "bcrypt";
+import validator from "validator";
 
 const userSchema = new mongoose.Schema(
   {
     username: {
       type: String,
-      required: true,
+      required: [true, "Username is required"],
       unique: true,
+      trim: true,
+      minlength: [3, "Username must be at least 3 characters long"],
+      maxlength: [50, "Username cannot be more than 50 characters"],
     },
     email: {
       type: String,
-      required: true,
+      required: [true, "Email is required"],
       unique: true,
+      trim: true,
+      lowercase: true,
+      validate: [validator.isEmail, "Please provide a valid email address"],
     },
     password: {
       type: String,
-      required: true,
+      required: [true, "Password is required"],
+      minlength: [8, "Password must be at least 8 characters long"],
+      select: false, // Parola sorgulamalarda döndürülmez
     },
   },
-  { timestamps }
+  { timestamps: true }
 );
+
+// Şifreyi kaydetmeden önce hashle
+userSchema.pre("save", async function (next) {
+  if (!this.isModified("password")) return next();
+
+  try {
+    const salt = await bcrypt.genSalt(12); // Salt faktörünü 12 olarak ayarladık
+    this.password = await bcrypt.hash(this.password, salt);
+    next();
+  } catch (error) {
+    next(error);
+  }
+});
+
+// Kullanıcının girdiği şifreyi doğrulama
+userSchema.methods.comparePassword = async function (enteredPassword) {
+  return await bcrypt.compare(enteredPassword, this.password);
+};
+
 
 const User = mongoose.model("User", userSchema);
 
