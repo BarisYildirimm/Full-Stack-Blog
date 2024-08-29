@@ -24,11 +24,11 @@ export const signUp = async (req, res, next) => {
       password, // Modelde hashleme yapıldı
     });
 
-    const token = jwt.sign(
-      { email: newUser.email, id: newUser._id },
-      process.env.JWT_SECRET || "test",
-      { expiresIn: "1h" }
-    );
+    // const token = jwt.sign(
+    //   { email: newUser.email, id: newUser._id },
+    //   process.env.JWT_SECRET || "test",
+    //   { expiresIn: "1h" }
+    // );
 
     res.status(201).json({
       status: "success",
@@ -38,7 +38,7 @@ export const signUp = async (req, res, next) => {
         username: newUser.username,
         email: newUser.email,
       },
-      token,
+      // token,
     });
   } catch (error) {
     next(error);
