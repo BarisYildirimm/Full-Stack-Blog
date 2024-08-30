@@ -32,7 +32,6 @@ export const signUp = async (req, res, next) => {
         username: newUser.username,
         email: newUser.email,
       },
-      // token,
     });
   } catch (error) {
     next(error);
