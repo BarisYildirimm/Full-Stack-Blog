@@ -1,9 +1,11 @@
 import express from "express";
+import User from "../models/user.js";
 
-export const getUsers = (req, res) => {
+export const getUsers = async (req, res, next) => {
   try {
-    res.json({ message: "success" });
+    const data = await User.find();
+    res.status(200).json(data);
   } catch (error) {
-    res.json({ message: "error" });
+    console.log(error);
   }
 };

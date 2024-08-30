@@ -24,12 +24,6 @@ export const signUp = async (req, res, next) => {
       password, // Modelde hashleme yapıldı
     });
 
-    // const token = jwt.sign(
-    //   { email: newUser.email, id: newUser._id },
-    //   process.env.JWT_SECRET || "test",
-    //   { expiresIn: "1h" }
-    // );
-
     res.status(201).json({
       status: "success",
       message: "User registered successfully.",
@@ -40,6 +34,36 @@ export const signUp = async (req, res, next) => {
       },
       // token,
     });
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const signIn = async (req, res, next) => {
+  const { email, password } = req.body;
+  try {
+    const existingUser = await User.findOne({ email }).select("+password");
+
+    if (!existingUser) {
+      return next(new AppError("User Dosen't exist", 404));
+    }
+
+    const isPasswordCorrect = await existingUser.comparePassword(password);
+
+    if (!isPasswordCorrect) {
+      return next(new AppError("Invalid credentials", 404));
+    }
+
+    //Geri dönerken password kaldırıldı.
+    existingUser.password = undefined;
+
+    const token = jwt.sign(
+      { email: existingUser.email, id: existingUser._id },
+      process.env.JWT_SECRET || "test",
+      { expiresIn: "1h" }
+    );
+
+    res.status(200).json({ result: existingUser, token: token });
   } catch (error) {
     next(error);
   }
