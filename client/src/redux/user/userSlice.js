@@ -7,23 +7,25 @@ const initialState = {
 };
 
 const userSlice = createSlice({
-  name: "User",
-  initialState: initialState,
-  signInStart: (state) => {
-    state.loading = true;
-    state.error = null;
-  },
-  signInSuccess: (state, action) => {
-    state.currentUser = action.payload;
-    state.laoding = false;
-    state.error = null;
-  },
-  signFailure: (state, action) => {
-    state.loading = false;
-    state.error = action.payload;
+  name: "user",
+  initialState,
+  reducers: {
+    signInStart: (state) => {
+      state.loading = true;
+      state.error = null;
+    },
+    signInSuccess: (state, action) => {
+      state.currentUser = action.payload;
+      state.loading = false; // Burada düzeltildi
+      state.error = null;
+    },
+    signInFailure: (state, action) => {
+      state.loading = false;
+      state.error = action.payload;
+    },
   },
 });
 
-export const { signInStart, signInSuccess, signFailure } = userSlice.actions;
+export const { signInStart, signInSuccess, signInFailure } = userSlice.actions;
 
 export default userSlice.reducer;
