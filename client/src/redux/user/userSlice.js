@@ -1,7 +1,9 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-  currentUser: null,
+  currentUser: localStorage.getItem("userInfo")
+    ? JSON.parse(localStorage.getItem("userInfo"))
+    : null,
   error: null,
   loading: false,
 };
@@ -16,6 +18,7 @@ const userSlice = createSlice({
     },
     signInSuccess: (state, action) => {
       state.currentUser = action.payload;
+      localStorage.setItem("userInfo", JSON.stringify(action.payload));
       state.loading = false; // Burada düzeltildi
       state.error = null;
     },
@@ -23,9 +26,14 @@ const userSlice = createSlice({
       state.loading = false;
       state.error = action.payload;
     },
+    logout: (state) => {
+      state.currentUser = null;
+      localStorage.clear();
+    },
   },
 });
 
-export const { signInStart, signInSuccess, signInFailure } = userSlice.actions;
+export const { signInStart, signInSuccess, signInFailure, logout } =
+  userSlice.actions;
 
 export default userSlice.reducer;

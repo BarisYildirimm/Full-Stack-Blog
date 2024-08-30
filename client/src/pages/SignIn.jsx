@@ -37,8 +37,6 @@ const SignIn = () => {
 
       if (data.success === false) {
         dispatch(signInFailure(data.message));
-      } else {
-        localStorage.setItem("userInfo", data.token);
       }
 
       if (res.ok) {
