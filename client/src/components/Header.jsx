@@ -1,16 +1,18 @@
 import { Navbar, TextInput, Button, Dropdown, Avatar } from "flowbite-react";
 import { Link, useLocation } from "react-router-dom";
 import { AiOutlineSearch } from "react-icons/ai";
-import { FaMoon } from "react-icons/fa";
+import { FaMoon, FaSun } from "react-icons/fa";
 import { useSelector, useDispatch } from "react-redux";
 import { logout } from "../redux/user/userSlice";
 import { useNavigate } from "react-router-dom";
+import { toggleTheme } from "../redux/theme/themeSlice.js";
 
 const Header = () => {
   const path = useLocation().pathname;
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { currentUser } = useSelector((state) => state.user);
+  const { darkMode } = useSelector((state) => state.theme);
 
   const handleSignout = () => {
     try {
@@ -44,8 +46,13 @@ const Header = () => {
         <AiOutlineSearch />
       </Button>
       <div className="flex gap-2 md:order-2">
-        <Button className="w-12 h-10 hidden sm:inline" color="gray" pill>
-          <FaMoon />
+        <Button
+          className="w-12 h-10 hidden sm:inline"
+          color="gray"
+          pill
+          onClick={() => dispatch(toggleTheme())}
+        >
+          {darkMode ? <FaSun /> : <FaMoon />}
         </Button>
         {currentUser ? (
           <Dropdown
