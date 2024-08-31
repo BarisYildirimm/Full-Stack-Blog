@@ -19,7 +19,7 @@ const userSlice = createSlice({
     signInSuccess: (state, action) => {
       state.currentUser = action.payload;
       localStorage.setItem("userInfo", JSON.stringify(action.payload));
-      state.loading = false; // Burada düzeltildi
+      state.loading = false; 
       state.error = null;
     },
     signInFailure: (state, action) => {

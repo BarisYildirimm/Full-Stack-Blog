@@ -67,3 +67,42 @@ export const signIn = async (req, res, next) => {
     next(error);
   }
 };
+
+export const google = async (req, res, next) => {
+  const { email, name, googlePhotoUrl } = req.body;
+  try {
+    const user = await User.findOne({ email: email });
+    if (user) {
+      user.password = undefined;
+
+      const token = jwt.sign(
+        { email: user.email, id: user._id },
+        process.env.JWT_SECRET || "test",
+        { expiresIn: "1h" }
+      );
+
+      res.status(200).json({ result: user, token: token });
+    } else {
+      const generatedPassword =
+        Math.random().toString(36).slice(-8) +
+        Math.random().toString(36).slice(-8);
+      const newUser = new User({
+        username:
+          name.toLowerCase().split(" ").join("") +
+          Math.random().toString(9).slice(-4),
+        email,
+        password: generatedPassword,
+        profilePicture: googlePhotoUrl,
+      });
+      await newUser.save();
+      const token = jwt.sign(
+        { email: newUser.email, id: newUser._id },
+        process.env.JWT_SECRET || "test",
+        { expiresIn: "1h" }
+      );
+      res.status(200).json({ result: newUser, token: token });
+    }
+  } catch (error) {
+    next(error);
+  }
+};

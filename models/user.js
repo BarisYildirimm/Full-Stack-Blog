@@ -26,6 +26,11 @@ const userSchema = new mongoose.Schema(
       minlength: [8, "Password must be at least 8 characters long"],
       select: false, // Parola sorgulamalarda döndürülmez
     },
+    profilePicture: {
+      type: String,
+      default:
+        "https://static.vecteezy.com/system/resources/thumbnails/009/292/244/small/default-avatar-icon-of-social-media-user-vector.jpg",
+    },
   },
   { timestamps: true }
 );
@@ -47,7 +52,6 @@ userSchema.pre("save", async function (next) {
 userSchema.methods.comparePassword = async function (enteredPassword) {
   return await bcrypt.compare(enteredPassword, this.password);
 };
-
 
 const User = mongoose.model("User", userSchema);
 
