@@ -54,24 +54,18 @@ const Header = () => {
         >
           {darkMode ? <FaSun /> : <FaMoon />}
         </Button>
-        {currentUser ? (
+        {currentUser?.result ? (
           <Dropdown
             arrowIcon={false}
             inline
-            label={
-              <Avatar
-                alt="user"
-                img={currentUser.result.profilePicture}
-                rounded
-              />
-            }
+            label={<Avatar img={currentUser?.result?.profilePicture} rounded />}
           >
             <Dropdown.Header>
               <span className="block text-sm">
-                @{currentUser.result.username}
+                @{currentUser?.result?.username}
               </span>
               <span className="block text-sm font-medium truncate">
-                {currentUser.result.email}
+                {currentUser?.result?.email}
               </span>
             </Dropdown.Header>
             <Link to={"/dashboard?tab=profile"}>
