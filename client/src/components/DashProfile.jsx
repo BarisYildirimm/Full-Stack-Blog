@@ -1,6 +1,7 @@
 import { useState, useRef, useEffect } from "react";
 import { Alert, Button, Modal, TextInput } from "flowbite-react";
 import { useSelector, useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import {
   updateStart,
   updateSuccess,
@@ -8,6 +9,7 @@ import {
   deleteUserStart,
   deleteUserSuccess,
   deleteUserFailure,
+  logout,
 } from "../redux/user/userSlice";
 import {
   getStorage,
@@ -32,6 +34,7 @@ const DashProfile = () => {
   const [formData, setFormData] = useState({});
   const filePickerRef = useRef(null);
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const handleImageChange = (e) => {
     const file = e.target.files[0];
     if (file) {
@@ -106,6 +109,15 @@ const DashProfile = () => {
       }
     } catch (error) {
       dispatch(deleteUserFailure(error.message));
+    }
+  };
+
+  const handleSignout = () => {
+    try {
+      dispatch(logout());
+      navigate("/sign-in");
+    } catch (error) {
+      console.error(error);
     }
   };
 
@@ -223,7 +235,9 @@ const DashProfile = () => {
         <span onClick={() => setShowModal(true)} className="cursor-pointer">
           Delete Account
         </span>
-        <span className="cursor-pointer">Sign Out</span>
+        <span className="cursor-pointer" onClick={handleSignout}>
+          Sign Out
+        </span>
       </div>
       {updateUserSuccess && (
         <Alert color="success" className="mt-5">
