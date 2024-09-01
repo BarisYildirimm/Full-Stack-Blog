@@ -10,6 +10,11 @@ export default function DashPosts() {
   const [showMore, setShowMore] = useState(true);
   const [showModal, setShowModal] = useState(false);
   const [postIdToDelete, setPostIdToDelete] = useState("");
+
+  const userInfo = localStorage.getItem("userInfo");
+  const parsedUserInfo = JSON.parse(userInfo);
+  const token = parsedUserInfo.token;
+
   useEffect(() => {
     const fetchPosts = async () => {
       try {
@@ -30,7 +35,7 @@ export default function DashPosts() {
     if (currentUser?.result?.isAdmin) {
       fetchPosts();
     }
-  }, [currentUser?.result?._id]);
+  }, [currentUser?.result?._id, currentUser?.result?.isAdmin]);
 
   const handleShowMore = async () => {
     const startIndex = userPosts.length;
@@ -57,6 +62,10 @@ export default function DashPosts() {
         `/api/post/deletepost/${postIdToDelete}/${currentUser?.result?._id}`,
         {
           method: "DELETE",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
         }
       );
       const data = await res.json();
@@ -88,8 +97,7 @@ export default function DashPosts() {
               </Table.HeadCell>
             </Table.Head>
             {userPosts.map((post) => (
-              // eslint-disable-next-line react/jsx-key
-              <Table.Body className="divide-y">
+              <Table.Body className="divide-y" key={post._id}>
                 <Table.Row className="bg-white dark:border-gray-700 dark:bg-gray-800">
                   <Table.Cell>
                     {new Date(post.updatedAt).toLocaleDateString()}
