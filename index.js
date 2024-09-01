@@ -9,6 +9,7 @@ import errorHandler from "./middleware/errorHandler.js";
 import testRoutes from "./routes/test.js";
 import userRoutes from "./routes/user.js";
 import authRoutes from "./routes/auth.js";
+import postRoutes from "./routes/post.js";
 
 dotenv.config();
 const app = express();
@@ -20,6 +21,7 @@ app.use(cors());
 app.use("/test", testRoutes);
 app.use("/api/user", userRoutes);
 app.use("/api/auth", authRoutes);
+app.use("/api/post", postRoutes);
 
 app.use(errorHandler);
 

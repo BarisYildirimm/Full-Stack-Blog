@@ -57,7 +57,11 @@ export const signIn = async (req, res, next) => {
     existingUser.password = undefined;
 
     const token = jwt.sign(
-      { email: existingUser.email, id: existingUser._id },
+      {
+        email: existingUser.email,
+        id: existingUser._id,
+        isAdmin: existingUser.isAdmin,
+      },
       process.env.JWT_SECRET || "test",
       { expiresIn: "1h" }
     );
@@ -76,7 +80,7 @@ export const google = async (req, res, next) => {
       user.password = undefined;
 
       const token = jwt.sign(
-        { email: user.email, id: user._id },
+        { email: user.email, id: user._id, isAdmin: user.isAdmin },
         process.env.JWT_SECRET || "test",
         { expiresIn: "1h" }
       );
@@ -96,7 +100,7 @@ export const google = async (req, res, next) => {
       });
       await newUser.save();
       const token = jwt.sign(
-        { email: newUser.email, id: newUser._id },
+        { email: newUser.email, id: newUser._id, isAdmin: newUser.isAdmin },
         process.env.JWT_SECRET || "test",
         { expiresIn: "1h" }
       );
