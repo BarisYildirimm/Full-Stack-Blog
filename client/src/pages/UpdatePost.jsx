@@ -22,6 +22,10 @@ export default function UpdatePost() {
   const [publishError, setPublishError] = useState(null);
   const { postId } = useParams();
 
+  const userInfo = localStorage.getItem("userInfo");
+  const parsedUserInfo = JSON.parse(userInfo);
+  const token = parsedUserInfo.token;
+
   const navigate = useNavigate();
   const { currentUser } = useSelector((state) => state.user);
 
@@ -87,11 +91,12 @@ export default function UpdatePost() {
     e.preventDefault();
     try {
       const res = await fetch(
-        `/api/post/updatepost/${formData._id}/${currentUser._id}`,
+        `/api/post/updatepost/${formData._id}/${currentUser?.result?._id}`,
         {
           method: "PUT",
           headers: {
             "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
           },
           body: JSON.stringify(formData),
         }
