@@ -35,6 +35,11 @@ const DashProfile = () => {
   const filePickerRef = useRef(null);
   const dispatch = useDispatch();
   const navigate = useNavigate();
+
+  const userInfo = localStorage.getItem("userInfo");
+  const parsedUserInfo = JSON.parse(userInfo);
+  const token = parsedUserInfo.token;
+
   const handleImageChange = (e) => {
     const file = e.target.files[0];
     if (file) {
@@ -85,10 +90,6 @@ const DashProfile = () => {
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.id]: e.target.value });
   };
-
-  const userInfo = localStorage.getItem("userInfo");
-  const parsedUserInfo = JSON.parse(userInfo);
-  const token = parsedUserInfo.token;
 
   const handleDeleteUser = async () => {
     setShowModal(false);

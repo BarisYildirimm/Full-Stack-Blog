@@ -10,6 +10,7 @@ import testRoutes from "./routes/test.js";
 import userRoutes from "./routes/user.js";
 import authRoutes from "./routes/auth.js";
 import postRoutes from "./routes/post.js";
+import commentRoutes from "./routes/comment.js";
 
 dotenv.config();
 const app = express();
@@ -22,6 +23,7 @@ app.use("/test", testRoutes);
 app.use("/api/user", userRoutes);
 app.use("/api/auth", authRoutes);
 app.use("/api/post", postRoutes);
+app.use("/api/comment", commentRoutes);
 
 app.use(errorHandler);
 
