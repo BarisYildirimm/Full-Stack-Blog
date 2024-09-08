@@ -2,6 +2,19 @@ import express from "express";
 import User from "../models/user.js";
 import AppError from "../utils/appError.js";
 
+export const getUser = async (req, res, next) => {
+  try {
+    const user = await User.findById(req.params.userId);
+    if (!user) {
+      return next(new AppError("User not found", 404));
+    }
+    const { password, ...rest } = user._doc;
+    res.status(200).json(rest);
+  } catch (error) {
+    next(error);
+  }
+};
+
 export const getUsers = async (req, res, next) => {
   if (!req.user.isAdmin) {
     return next(new AppError("You are not allowed to see all users", 403));
