@@ -17,38 +17,14 @@ const app = express();
 
 app.use(bodyParser.json({ limit: "30mb", extended: true }));
 app.use(bodyParser.urlencoded({ limit: "30mb", extended: true }));
-
-import cors from "cors";
-import express from "express";
-
-const prodOrigins = ["https://eunike-backend.vercel.app"];
-const devOrigin = ["http://localhost:5173"];
-const allowedOrigins =
-  getEnvironmentVariable("NODE_ENV") === "production" ? prodOrigins : devOrigin;
-app.use(
-  cors({
-    origin: (origin, callback) => {
-      if (getEnvironmentVariable("NODE_ENV") === "production") {
-        if (!origin || allowedOrigins.includes(origin)) {
-          callback(null, true);
-        } else {
-          callback(new Error(`${origin} not allowed by cors`));
-        }
-      } else {
-        callback(null, true);
-      }
-    },
-    optionsSuccessStatus: 200,
-    credentials: true,
-    methods: ["GET", "POST", "PUT", "DELETE"],
-  })
-);
+app.use(cors());
 
 app.use("/test", testRoutes);
 app.use("/api/user", userRoutes);
 app.use("/api/auth", authRoutes);
 app.use("/api/post", postRoutes);
 app.use("/api/comment", commentRoutes);
+
 
 app.use(errorHandler);
 
