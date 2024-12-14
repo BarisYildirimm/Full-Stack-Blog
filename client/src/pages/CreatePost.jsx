@@ -1,6 +1,6 @@
 import { Alert, Button, FileInput, Select, TextInput } from "flowbite-react";
 import ReactQuill from "react-quill";
-import "react-quill/dist/quill.snow.css";
+// import "react-quill/dist/quill.snow.css";
 import {
   getDownloadURL,
   getStorage,
@@ -45,7 +45,7 @@ export default function CreatePost() {
             (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
           setImageUploadProgress(progress.toFixed(0));
         },
-        (error) => {
+        () => {
           setImageUploadError("Image upload failed");
           setImageUploadProgress(null);
         },
@@ -84,7 +84,7 @@ export default function CreatePost() {
         setPublishError(null);
         navigate(`/post/${data.slug}`);
       }
-    } catch (error) {
+    } catch () {
       setPublishError("Something went wrong");
     }
   };
