@@ -20,7 +20,7 @@ app.use(cookieParser());
 
 // Route to set the cookie
 app.get("/set-cookie", (req, res) => {
-  res.cookie("__vercel_live_token", "your_token_value", {
+  res.cookie("__vercel_live_token", process.env.JWT_SECRET, {
     httpOnly: true, // JavaScript ile erişimi kapatır, güvenlik için önemli
     secure: true, // HTTPS üzerinde çalışması için gerekli (Production ortamında)
     sameSite: "none", // Cross-site erişime izin verir
