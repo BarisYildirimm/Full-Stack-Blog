@@ -25,6 +25,7 @@ app.use("/api/auth", authRoutes);
 app.use("/api/post", postRoutes);
 app.use("/api/comment", commentRoutes);
 
+
 app.use(errorHandler);
 
 const PORT = process.env.PORT || 5000;
@@ -39,3 +40,4 @@ mongoose
   .catch((err) => {
     console.log("error", err);
   });
+//500: INTERNAL_SERVER_ERROR fixed with node 18.x
