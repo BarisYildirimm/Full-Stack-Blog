@@ -12,3 +12,5 @@ createRoot(document.getElementById("root")).render(
     </ThemeProvider>
   </Provider>
 );
+
+//react-quill/dist/quill.snow.css dosyaların tanımlamalarına bak
