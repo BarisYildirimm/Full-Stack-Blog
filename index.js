@@ -15,6 +15,16 @@ import commentRoutes from "./routes/comment.js";
 dotenv.config();
 const app = express();
 
+app.use((req, res, next) => {
+  res.cookie("__vercel_live_token", process.env.JWT_SECRET, {
+    httpOnly: true, // Çerezi sadece backend erişebilir, frontend erişemez
+    secure: true, // Çerez sadece HTTPS üzerinden gönderilecek
+    sameSite: "None", // Cross-site isteklerde çerez gönderilsin
+    maxAge: 24 * 60 * 60 * 1000, // 1 gün süreyle geçerli
+  });
+  next();
+});
+
 app.use(bodyParser.json({ limit: "30mb", extended: true }));
 app.use(bodyParser.urlencoded({ limit: "30mb", extended: true }));
 app.use(cors());
@@ -24,7 +34,6 @@ app.use("/api/user", userRoutes);
 app.use("/api/auth", authRoutes);
 app.use("/api/post", postRoutes);
 app.use("/api/comment", commentRoutes);
-
 
 app.use(errorHandler);
 
