@@ -12,7 +12,7 @@ export default defineConfig({
       "/api": {
         target: "https://eunike-backend.vercel.app", // Backend API sunucusu
         changeOrigin: true,
-        secure: false, // HTTPS kullanmıyorsanız false yapın
+        secure: true, // HTTPS kullanmıyorsanız false yapın
       },
     },
   },
