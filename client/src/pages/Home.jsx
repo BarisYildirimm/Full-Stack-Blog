@@ -9,7 +9,7 @@ export default function Home() {
   useEffect(() => {
     const fetchPosts = async () => {
       const res = await fetch(
-        "https://eunike-backend.vercel.app/api/post/getPosts",
+        "https://full-stack-blog-7keh.onrender.com/api/post/getPosts",
         {
           method: "GET",
           credentials: "include",
