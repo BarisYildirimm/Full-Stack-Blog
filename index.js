@@ -20,9 +20,7 @@ app.use(bodyParser.urlencoded({ limit: "30mb", extended: true }));
 // CORS Middleware'i ekleyin
 app.use(
   cors({
-    origin: [
-      "https://eunike-client-f7padbbkq-barisyildirimms-projects.vercel.app/",
-    ],
+    origin: ["https://eunike-client.vercel.app/"],
     methods: ["POST", "GET"],
     credentials: true,
   })
