@@ -17,6 +17,14 @@ const app = express();
 
 app.use(bodyParser.json({ limit: "30mb", extended: true }));
 app.use(bodyParser.urlencoded({ limit: "30mb", extended: true }));
+app.use((req, res, next) => {
+  res.cookie("__vercel_live_token", process.env.JWT_SECRET, {
+    httpOnly: true,
+    secure: true, // HTTPS üzerinden sadece çerez gönderilsin
+    sameSite: "None", // Cross-site isteklerde çerez gönderilmesini sağlar
+  });
+  next();
+});
 // CORS Middleware'i ekleyin
 app.use(
   cors({
