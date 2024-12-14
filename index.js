@@ -15,6 +15,30 @@ import commentRoutes from "./routes/comment.js";
 dotenv.config();
 const app = express();
 
+// Cookie parser middleware
+app.use(cookieParser());
+
+// Route to set the cookie
+app.get("/set-cookie", (req, res) => {
+  res.cookie("__vercel_live_token", "your_token_value", {
+    httpOnly: true, // JavaScript ile erişimi kapatır, güvenlik için önemli
+    secure: true, // HTTPS üzerinde çalışması için gerekli (Production ortamında)
+    sameSite: "none", // Cross-site erişime izin verir
+  });
+
+  res.status(200).send("Cookie has been set!");
+});
+
+// Route to check cookies
+app.get("/check-cookie", (req, res) => {
+  const token = req.cookies["__vercel_live_token"];
+  if (token) {
+    res.status(200).send(`Token received: ${token}`);
+  } else {
+    res.status(400).send("No token found");
+  }
+});
+
 app.use(bodyParser.json({ limit: "30mb", extended: true }));
 app.use(bodyParser.urlencoded({ limit: "30mb", extended: true }));
 app.use(cors());
@@ -24,7 +48,6 @@ app.use("/api/user", userRoutes);
 app.use("/api/auth", authRoutes);
 app.use("/api/post", postRoutes);
 app.use("/api/comment", commentRoutes);
-
 
 app.use(errorHandler);
 
