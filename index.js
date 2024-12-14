@@ -20,9 +20,11 @@ app.use(bodyParser.urlencoded({ limit: "30mb", extended: true }));
 // CORS Middleware'i ekleyin
 app.use(
   cors({
-    origin:
-      "https://eunike-client-f7padbbkq-barisyildirimms-projects.vercel.app/", // Frontend domaini
-    credentials: true, // Çerez gönderimine izin verir
+    origin: [
+      "https://eunike-client-f7padbbkq-barisyildirimms-projects.vercel.app/",
+    ],
+    methods: ["POST", "GET"],
+    credentials: true,
   })
 );
 
