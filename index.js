@@ -15,6 +15,8 @@ import commentRoutes from "./routes/comment.js";
 dotenv.config();
 const app = express();
 
+app.use(bodyParser.json({ limit: "30mb", extended: true }));
+app.use(bodyParser.urlencoded({ limit: "30mb", extended: true }));
 // CORS Middleware'i ekleyin
 app.use(
   cors({
@@ -23,10 +25,6 @@ app.use(
     credentials: true, // Çerez gönderimine izin verir
   })
 );
-
-app.use(bodyParser.json({ limit: "30mb", extended: true }));
-app.use(bodyParser.urlencoded({ limit: "30mb", extended: true }));
-app.use(cors());
 
 app.use("/test", testRoutes);
 app.use("/api/user", userRoutes);
