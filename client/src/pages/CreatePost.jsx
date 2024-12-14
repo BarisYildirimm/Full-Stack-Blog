@@ -45,7 +45,7 @@ export default function CreatePost() {
             (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
           setImageUploadProgress(progress.toFixed(0));
         },
-        () => {
+        (error) => {
           setImageUploadError("Image upload failed");
           setImageUploadProgress(null);
         },
@@ -84,7 +84,7 @@ export default function CreatePost() {
         setPublishError(null);
         navigate(`/post/${data.slug}`);
       }
-    } catch () {
+    } catch (error) {
       setPublishError("Something went wrong");
     }
   };
