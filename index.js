@@ -21,8 +21,6 @@ app.use(bodyParser.urlencoded({ limit: "30mb", extended: true }));
 import cors from "cors";
 import express from "express";
 
-const app = express();
-
 // Üretim ortamındaki ve geliştirme ortamındaki origin listelerini ayarlayalım
 const devOrigins = ["http://localhost:5000"]; // Geliştirme ortamındaki izin verilen domain
 const prodOrigins = ["https://eunike-client.vercel.app"]; // Üretim ortamındaki izin verilen domain
