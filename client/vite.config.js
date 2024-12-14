@@ -10,7 +10,7 @@ export default defineConfig({
   server: {
     proxy: {
       "/api": {
-        target: "https://eunike-backend.vercel.app", // Backend API sunucusu
+        target: "https://full-stack-blog-7keh.onrender.com", // Backend API sunucusu
         changeOrigin: true,
         secure: true, // HTTPS kullanmıyorsanız false yapın
       },
